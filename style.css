@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300&subset=latin-ext');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    color:white;
+    
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+
+  #midWrapper {
+    flex-grow: 1; /* Az 1-es arányszám, azt mondja meg, mi legyen a felosztási arány. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #midText {
+    font-size: 40px;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
+  }
+
+  #headerBar {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #footer1, #footer2 {
+    display: flex;
+    justify-content: center;
+  }
+
+  #backgroundvideo{
+    position: absolute; /* position:fixed-el lehet olyat, hogy a kép fix, de a szöveg gördül a háttérben.*/
+    top: 50%;
+    left: 50%;
+    z-index: -100;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate( -50%, -50%);
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .headerlink {
+    margin: 5px 10px;
+    cursor: pointer;
+  }
+
+  .headerlink:hover {
+    text-decoration: underline;
+  }
+
+  .bodylink {
+    cursor: pointer;
+    border-bottom: 2px solid white;
+  }
+
+  .bodylink:hover {
+    /*background-color: rgba(0, 0, 0, .5);*/
+    background-color: rgba(100, 100, 100, .5);
+  }
+
+  .mainButton {
+    text-align: center;
+    background-color: rgba(0, 0, 0, .5);
+    margin: 10px 10px;
+    padding: 10px;
+    width: 150px;
+    border: none;
+    color: white;
+    /*border-radius: 4px;*/
+    display:inline-block; /* Ez rakta be blokkosra egyformára őket */
+    transition-duration: 0.4s;
+    border: .5px solid rgba(0, 0, 0, .5);
+    cursor: pointer;
+  }
+
+  .mainButton:hover {
+    /*background-color: rgba(0, 0, 0, .8);*/
+    background-color: rgba(50, 50, 50, .5);
+    border: .5px solid white; 
+  }
+
+  #buttonWrapper {
+    margin-top:30px;
+    margin-left:auto;
+    margin-right: auto;
+  }
+
+  #ctflink {
+    margin-left:3px;
+    margin-right:3px;
+  }
+  .upcoming {
+    text-decoration: underline;
+  }
+  .upcoming:hover {
+    background-color: grey;
+  }
