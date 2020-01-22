@@ -63,14 +63,14 @@ let jsGames = document.querySelector('#jsGames')
 
 let ctflink = document.createElement('a')
 // upcoming CTF details
-ctflink.textContent = " Insomni'hack"
-ctflink.href = 'https://teaser.insomnihack.ch/'
+ctflink.textContent = " Rice Tea Cat Panda"
+ctflink.href = 'https://riceteacatpanda.wtf/'
 ctflink.target = '_blank'
 ctflink.className = 'upcoming'
 
 document.querySelector('#footer11').textContent = 'Upcoming CTF that we partake in:  '
 document.querySelector('#ctflink').appendChild(ctflink)
-document.querySelector('#footer12').textContent = ' - 2020.01.18'
+document.querySelector('#footer12').textContent = ' - Monday, Jan 20th 2020, 8:00am PST to Friday, Jan 24th 2020, 11:59pm PST'
 document.querySelector('#footer2').textContent = `© T4r0 ${moment().year()}`
 
 // add event listeners
