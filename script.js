@@ -56,43 +56,6 @@ const main_elements = [{
     }]
 }]
 
-const htb_elements = [{
-    title: 'Boxes',
-    id: 'boxes',
-},
-{
-    title: 'Challenges',
-    id: 'challenges',
-},
-{
-    title: 'Back',
-    id: 'back',
-}]
-
-const ctf_elements = [{
-    title: '2019',
-    id: 'y2019',
-},
-{
-    title: '2020',
-    id: 'y2020',
-},
-{
-    title: 'Back',
-    id: 'back',
-}]
-
-const wargames_elements = [{
-    title: 'Overthewire',
-    id: 'overthewire',
-},
-{
-    title: 'Back',
-    id: 'back',
-}]
-
-
-
 // render the buttons in the middle
 renderButtons(main_elements)
 
@@ -118,22 +81,47 @@ document.querySelector('#footer2').textContent = `© T4r0 ${moment().year()}`
 htb.addEventListener('click', function () {
     //rendering HTB buttons
     renderButtons([{ title: 'Boxes', id: 'boxes', }, { title: 'Challenges', id: 'challenges', }, { title: 'Back', id: 'back', }])
+
     //event listener for Boxes button
     document.querySelector('#boxes').addEventListener('click', function () {
         //Rendering active and passive buttons for boxes
         renderButtons([{ title: 'Active', id: 'active', }, { title: 'Retired', id: 'retired', }, { title: 'Back', id: 'back', }])
 
+        document.querySelector('#active').addEventListener('click', function () {
+            comingSoon()
+        })
+        // rendering retired box difficulties
+        document.querySelector('#retired').addEventListener('click', function () {
+            renderButtons([{ title: 'Easy', id: 'easy', }, { title: 'Medium', id: 'medium', }, { title: 'Hard', id: 'hard', }, { title: 'Insane', id: 'insane', }, { title: 'Back', id: 'back', }])
 
+            document.querySelector('#back').addEventListener('click', function () {
+                window.location = './index.html'
+            })
+        })
         document.querySelector('#back').addEventListener('click', function () {
             window.location = './index.html'
         })
     })
+
     //event listener for Challenges button
     document.querySelector('#challenges').addEventListener('click', function () {
         //Rendering active and passive buttons for challenges
         renderButtons([{ title: 'Active', id: 'active', }, { title: 'Retired', id: 'retired', }, { title: 'Back', id: 'back', }])
 
+        document.querySelector('#active').addEventListener('click', function () {
+            comingSoon()
+        })
+        //rendering reitred challenge cathegories
+        document.querySelector('#retired').addEventListener('click', function () {
+            renderButtons([{ title: 'Reversing', id: 'reversing', }, { title: 'Crypto', id: 'crypto', }, { title: 'Stego', id: 'stego', }, { title: 'Pwn', id: 'pwn', },
+            { title: 'Web', id: 'web', }, { title: 'Misc', id: 'misc', }, { title: 'Forensics', id: 'forensics', }, { title: 'Mobile', id: 'mobile', },
+            { title: 'OSINT', id: 'osint', }, { title: 'Back', id: 'back', }])
 
+            document.querySelector('#back').addEventListener('click', function () {
+                window.location = './index.html'
+            })
+
+        })
         document.querySelector('#back').addEventListener('click', function () {
             window.location = './index.html'
         })
@@ -143,8 +131,10 @@ htb.addEventListener('click', function () {
     })
 
 })
+
+//event listener for CTF
 ctf.addEventListener('click', function () {
-    renderButtons(ctf_elements)
+    renderButtons([{ title: '2019', id: 'y2019', }, { title: '2020', id: 'y2020', }, { title: 'Back', id: 'back', }])
     document.querySelector('#y2019').addEventListener('click', function () {
 
     })
@@ -155,8 +145,10 @@ ctf.addEventListener('click', function () {
         window.location = './index.html'
     })
 })
+
+//event listener for wargames
 wargames.addEventListener('click', function () {
-    renderButtons(wargames_elements)
+    renderButtons([{ title: 'Overthewire', id: 'overthewire', }, { title: 'Back', id: 'back', }])
     document.querySelector('#overthewire').addEventListener('click', function () {
         comingSoon()
 
@@ -165,5 +157,4 @@ wargames.addEventListener('click', function () {
         window.location = './index.html'
     })
 })
-
 
