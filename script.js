@@ -57,31 +57,31 @@ renderButtons(main_elements)
 
 
 // get the html elements
-let jsBoot = document.querySelector('#jsBoot')
-let netacademia = document.querySelector('#netacademia')
-let jsGames = document.querySelector('#jsGames')
+let htb = document.querySelector('#htb')
+let ctf = document.querySelector('#ctf')
+let wargames = document.querySelector('#wargames')
 
 let ctflink = document.createElement('a')
 // upcoming CTF details
-ctflink.textContent = " Rice Tea Cat Panda"
-ctflink.href = 'https://riceteacatpanda.wtf/'
+ctflink.textContent = "Metasploit CTF"
+ctflink.href = 'https://metasploitctf.com/'
 ctflink.target = '_blank'
 ctflink.className = 'upcoming'
 
 document.querySelector('#footer11').textContent = 'Upcoming CTF that we partake in:  '
 document.querySelector('#ctflink').appendChild(ctflink)
-document.querySelector('#footer12').textContent = ' - Monday, Jan 20th 2020, 8:00am PST to Friday, Jan 24th 2020, 11:59pm PST'
+document.querySelector('#footer12').textContent = ' - Start: 12:00 PM EST (noon) January 30th, 2020 - End: 11:59 AM EST February 3rd, 2020'
 document.querySelector('#footer2').textContent = `© T4r0 ${moment().year()}`
 
 // add event listeners
-jsBoot.addEventListener('click', function() {
-    renderRelatedProjects(main_elements, jsBoot.id)
+htb.addEventListener('click', function() {
+    renderRelatedProjects(main_elements, htb.id)
 })
-netacademia.addEventListener('click', function(){
-    renderRelatedProjects(main_elements, netacademia.id)
+ctf.addEventListener('click', function(){
+    renderRelatedProjects(main_elements, ctf.id)
 })
-jsGames.addEventListener('click', function(){
-    renderRelatedProjects(main_elements, jsGames.id)
+wargames.addEventListener('click', function(){
+    renderRelatedProjects(main_elements, wargames.id)
 })
 
 
