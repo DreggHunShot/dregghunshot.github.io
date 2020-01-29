@@ -1,11 +1,8 @@
-// TO DO: make related project string array into an object array and put the link in too with the title so the onclick will redirect to the right place
-// addNewProject(title) függvény
-// addNewRelatedProject(title, ['relatedproj1', relatedproj2])
+// TO DO: 
+//
+//
+//
 
-// Make functions for every main button, when we press it call clear first, then render the right buttons, all buttons stored in different arrays.
-// change the current render buttons to render main buttons and call it on every 'back' button press (first call clear of course)
-// Add render head bar to the right buttons
-// 
 const main_elements = [{
     title: 'HTB',
     id: 'htb',
