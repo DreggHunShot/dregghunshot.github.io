@@ -7,10 +7,10 @@ const clearHeadbar = function () {
     document.querySelector('#headerBar').innerHTML = ''
 }
 
-const renderButtons = function (projectsarray) {
+const renderButtons = function (projectarray) {
     clearButtons()
     clearHeadbar()
-    projectsarray.forEach(function (project) {
+    projectarray.forEach(function (project) {
         const button = document.createElement('button')
         button.textContent = project.title
         button.id = project.id
@@ -25,7 +25,28 @@ const comingSoon = function (){
     let headerBar = document.querySelector('#headerBar')
     let p = document.createElement('p')
     p.textContent = 'This is empty, content is Coming Soon!'
+    p.className = 'headertext'
     headerBar.appendChild(p)
+}
+
+const renderHeaderBar = function (projectarray) {
+    clearHeadbar()
+    projectarray.forEach(function (project){
+        const headlink = document.createElement('a')
+        headlink.textContent = project.title
+        headlink.id = project.id
+        headlink.className = 'headerlink'
+        if (project.id === '#') {
+            headlink.href = '#'
+            headlink.className += ' noctf'
+        } else {
+            headlink.href = './' + project.id + '.html'
+        }
+        
+        let headerBar = document.querySelector('#headerBar')
+        headerBar.appendChild(headlink)
+
+    })
 }
 
 const renderRelatedProjects = function (projectarray, buttonid) {

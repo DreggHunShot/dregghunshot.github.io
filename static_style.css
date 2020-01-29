@@ -1,19 +1,21 @@
 #navheader {
-    color:#F03838;
+    color: #F03838;
     font-size: 3rem;
     font-family: "Open Sans", arial, sans-serif;
 }
+
 .header-link {
-    color:#F03838;
+    color: #F03838;
     font-size: 2rem;
     font-family: "Open Sans", arial, sans-serif;
 }
+
 .header-link:hover {
     color: #0FA0CE;
 }
 
 .body-link {
-    color:#F03838;
+    color: #F03838;
     font-family: "Open Sans", arial, sans-serif;
 }
 
@@ -24,15 +26,27 @@
 html, img, section, #col-sm, .container, body, p {
     background: #424242;
     font-family: "Open Sans", arial, sans-serif;
-    
 }
+
 h1, h2, h3, h4, h5, h6 {
-    color:#F03838;
+    color: #F03838;
 }
+
 p {
     color: #FEFEFE;
 }
+
 img {
     width: 500px;
     height: 500px;
+}
+
+.hline {
+    width: 100%;
+    height: 1px;
+    background: #F03838;
+}
+
+.body-title {
+    font-size: 2rem;
 }
