@@ -29,7 +29,7 @@ const comingSoon = function (){
     headerBar.appendChild(p)
 }
 
-const renderHeaderBar = function (projectarray) {
+const renderHeaderBar = function (projectarray, directorystruct) {
     clearHeadbar()
     projectarray.forEach(function (project){
         const headlink = document.createElement('a')
@@ -40,7 +40,7 @@ const renderHeaderBar = function (projectarray) {
             headlink.href = '#'
             headlink.className += ' noctf'
         } else {
-            headlink.href = './' + project.id + '.html'
+            headlink.href = directorystruct + project.id + '.html'
         }
         
         let headerBar = document.querySelector('#headerBar')

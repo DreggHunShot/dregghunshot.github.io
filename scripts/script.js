@@ -55,7 +55,7 @@ htb.addEventListener('click', function () {
         })
         // rendering retired box difficulties
         document.querySelector('#retired').addEventListener('click', function () {
-            renderHeaderBar([{ title: 'Easy', id: 'easy', }, { title: 'Medium', id: 'medium', }, { title: 'Hard', id: 'hard', }, { title: 'Insane', id: 'insane', },])
+            renderHeaderBar([{ title: 'Easy', id: 'easy', }, { title: 'Medium', id: 'medium', }, { title: 'Hard', id: 'hard', }, { title: 'Insane', id: 'insane', },], '../../')
 
             document.querySelector('#back').addEventListener('click', function () {
                 window.location = './index.html'
@@ -78,7 +78,7 @@ htb.addEventListener('click', function () {
         document.querySelector('#retired').addEventListener('click', function () {
             renderHeaderBar([{ title: 'Reversing', id: 'reversing', }, { title: 'Crypto', id: 'crypto', }, { title: 'Stego', id: 'stego', }, { title: 'Pwn', id: 'pwn', },
             { title: 'Web', id: 'web', }, { title: 'Misc', id: 'misc', }, { title: 'Forensics', id: 'forensics', }, { title: 'Mobile', id: 'mobile', },
-            { title: 'OSINT', id: 'osint', }])
+            { title: 'OSINT', id: 'osint', }], '../../')
 
             document.querySelector('#back').addEventListener('click', function () {
                 window.location = './index.html'
@@ -101,13 +101,13 @@ ctf.addEventListener('click', function () {
     document.querySelector('#y2019').addEventListener('click', function () {
         renderHeaderBar([{title: '01', id: '#'},{title: '02', id: '#'},{title: '03', id: '#'},{title: '04', id: '#'},{title: '05', id: '#'},
         {title: '06', id: '#'}, {title: '07', id: '#'},{title: '08', id: '#'},{title: '09', id: '#'},{title: '10', id: 'm1019'},{title: '11', id: '#'},
-        {title: '12', id: 'm1219'}])
+        {title: '12', id: 'm1219'}], '../../')
 
     })
     document.querySelector('#y2020').addEventListener('click', function () {
         renderHeaderBar([{title: '01', id: 'm0120'},{title: '02', id: 'm0220'},{title: '03', id: 'm0320'},{title: '04', id: 'm0420'},{title: '05', id: 'm0520'},
         {title: '06', id: 'm0620'}, {title: '07', id: 'm0720'},{title: '08', id: 'm0820'},{title: '09', id: 'm0920'},{title: '10', id: 'm1020'},{title: '11', id: 'm1120'},
-        {title: '12', id: 'm1220'}])
+        {title: '12', id: 'm1220'}], '../../')
     })
     document.querySelector('#all-time').addEventListener('click', function () {
         comingSoon()
