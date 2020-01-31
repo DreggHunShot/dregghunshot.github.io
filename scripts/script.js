@@ -98,7 +98,7 @@ ctf.addEventListener('click', function () {
     document.querySelector('#y2019').addEventListener('click', function () {
         renderHeaderBar([{title: '01', id: '#'},{title: '02', id: '#'},{title: '03', id: '#'},{title: '04', id: '#'},{title: '05', id: '#'},
         {title: '06', id: '#'}, {title: '07', id: '#'},{title: '08', id: '#'},{title: '09', id: '#'},{title: '10', id: 'm1019'},{title: '11', id: '#'},
-        {title: '12', id: 'm1219'}], '../../')
+        {title: '12', id: 'm1219'}], 'html/ctf/2019/')
 
     })
     document.querySelector('#y2020').addEventListener('click', function () {
