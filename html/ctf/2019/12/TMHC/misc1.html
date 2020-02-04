@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>t4r0</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic" />
+    <link rel="stylesheet" type="text/css" href="../../../../../stylesheets/static_style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-dark bg-dark">
+        <h3 id="navheader" class="mx-4 my-2">T4r0's writeups</h3>
+
+
+        <ul class="navbar-nav  ml-auto mr-3">
+            <li class="mx-4 nav-item">
+                <a class="header-link mx-3" href="../../../../../index.html">Back</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <section>
+        <div class="container">
+            <h1 style="text-align: center;" class='my-0 py-4'>Misc 1</h1>
+            <a style="font-size: 2rem;" class='body-link' href="index.html">cd ../</a>
+        </div>
+
+    </section>
+    <section>
+        <div class="py-2 container">
+            <ul style='text-align: center; list-style-type: none;'>
+                <div class='my-4 hline'></div>
+                <li>
+                    <h3 class="py-1">Files</h3>
+                </li>
+                <li><p>No files for this challenge.</p></li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Challenge description</h3>
+                </li>
+                <li>
+                    <p>
+                        No description for this challenge, but basically there was a server, we had to communicate with
+                        it through <span class="highlight">POST</span> requests, it gave us some math problems, and we
+                        had 3 seconds to solve them. If
+                        you solve a problem right, it gave the next problem etc etc. and you had to do this 10 times for
+                        the flag.</p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Solution</h3>
+                </li>
+                <li>
+                    <p>There's not much i can say about this challenge, you just had to code a script or program for
+                        it, since doing this by hand was way too slow. I will however mention, that I've wasted an
+                        incredible amount of time on trying to find the right format for the <span
+                            class="highlight">POST</span> request data, since the
+                        server kept giving me the same challenge, even if I was sure I've sent the right solution (and it was supposed
+                        to give me the next one). After several hours of trying to make it work, I've finally noticed in
+                        burp that we had a <span class="highlight">session cookie</span> set (well noticed it before, but didn't think much about it).
+                        It did look like every time I've sent in a challenge I've got a new <span class="highlight">session
+                            cookie</span>. This is where
+                        the idea came that I probably have to use the same session cookie for my requests, and indeed
+                        this worked and I've managed to progress with it.</p>
+                </li>
+                <li>
+                    <p>My code originally looked like this (this was before using the same session cookie), I've used
+                        Python 3:</p>
+                </li>
+                <li>
+                    <pre style="text-align: left;" class="code">
+import requests
+
+url = 'http://docker.hackthebox.eu:30429/flag'
+
+###################################### 1. req ####################
+x = requests.post(url)
+
+###################################### 1. req kiértékelés ####################
+#cut the string so we can get the math problem
+strtocut = x.text
+strtocut = strtocut[0:-4:]
+strtocut = strtocut[96:]
+
+#get math problem parameters with more cutting and slicing
+elso_op = float(strtocut[:strtocut.index(' ')])
+muvelet = strtocut[strtocut.index(' ')+1:strtocut.index(' ')+2]
+masodik_op = float(strtocut[strtocut.index(' ')+3:])
+
+#do the calculations
+print('1. problema:')
+print(strtocut, '\n')
+if muvelet == '-':
+    eredmeny = elso_op - masodik_op
+elif muvelet == '/':
+    eredmeny = elso_op / masodik_op
+elif muvelet == '*':
+    eredmeny = elso_op * masodik_op
+elif muvelet == '+':
+    eredmeny = elso_op + masodik_op
+
+###################################### 2. req ####################
+#ki = {"answer" : str(round(eredmeny, 2))}
+ki = '"answer" : ' + str(eredmeny)
+print('eredmeny:')
+print(ki, '\n')
+y = requests.post(url, data=ki)
+print('2. problema:')
+print(y.text)
+                        </pre>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <p>So after modifying the code and solving the 10 challenges we got an answer that looked like this:
+                    </p>
+                </li>
+                <li>
+                    <p><span class="code">Can you decode this? TFJGX1ZfUE5BIQ==</span></p>
+                </li>
+                <li>
+                    <p>This does look <span class="highlight">base64</span> encoded, so let's decode it the usual way!
+                    </p>
+                </li>
+                <li>
+                    <p class="code">echo -n TFJGX1ZfUE5BIQ== | base64 -d</p>
+                </li>
+                <li>
+                    <p>This gave us a string that looked ROT encoded:</p>
+                </li>
+                <li>
+                    <p class="code">LRF_V_PNA!</p>
+                </li>
+                <li>
+                    <p>After using <a class="body-link" href="http://theblob.org/rot.cgi">my favourite ROT decoder</a>,
+                        we did get a
+                        meaningful result by using <span class="highlight">ROT-13</span>:</p>
+                </li>
+                <li>
+                    <p class="code">YES_I_CAN!</p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <p>I've once again got a bit stuck here not being sure about what to do with this, but this didn't
+                        last long and once I've looked at the challenge and what I've done so far I've realised that I
+                        probably have to send back this result string in a <span class="highlight">POST</span> request
+                        too. I've done exactly that, and
+                        got the flag out of it.</p>
+                </li>
+                <li>
+                    <p>My code in the end that solved the challenge was this (on rare occasions it didn't work because
+                        of a delimeter issue or something like that, but that happened like once out of 10 tries, could
+                        just re-run it if it failed):</p>
+                </li>
+                <li></li>
+                <pre style="text-align: left;" class="code">
+import requests
+import json
+
+url = 'http://docker.hackthebox.eu:30972/flag'
+
+###################################### 1. req ####################
+x = requests.post(url)
+
+###################################### 1. req kiértékelés ####################
+#cut the string so we can get the math problem
+strtocut = x.text
+print(strtocut)
+strtocut = strtocut[0:-4:]
+strtocut = strtocut[96:]
+
+
+#get math problem parameters with more cutting and slicing
+def getoperandsandcalc(bestr):
+    elso_op = float(bestr[:bestr.index(' ')])
+    muvelet = strtocut[bestr.index(' ')+1:bestr.index(' ')+2]
+    masodik_op = float(bestr[bestr.index(' ')+3:])
+    if muvelet == '-':
+        eredmeny = elso_op - masodik_op
+    elif muvelet == '/':
+        eredmeny = elso_op / masodik_op
+    elif muvelet == '*':
+        eredmeny = elso_op * masodik_op
+    elif muvelet == '+':
+        eredmeny = elso_op + masodik_op
+    return eredmeny
+
+#do the calculations
+print('1. problema:')
+print(strtocut, '\n')
+
+eredmeny = getoperandsandcalc(strtocut)
+print('Cookie:')
+print(x.cookies)
+
+###################################### 2. req ####################
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=x.cookies)
+print('2. problema:')
+print(y.text)
+
+###################################### 3. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('3. problema:')
+print(y.text)
+
+###################################### 4. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('4. problema:')
+print(y.text)
+
+###################################### 5. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('5. problema:')
+print(y.text)
+
+###################################### 6. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('6. problema:')
+print(y.text)
+
+###################################### 7. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('7. problema:')
+print(y.text)
+
+###################################### 8. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('8. problema:')
+print(y.text)
+
+###################################### 9. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('9. problema:')
+print(y.text)
+
+###################################### 10. req ##########
+
+strtocut = y.text
+strtocut = strtocut[35:-5]
+print(strtocut)
+eredmeny = getoperandsandcalc(strtocut)
+
+ki = {'answer' : round(eredmeny, 2)}
+print('eredmeny:')
+print(ki, '\n')
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('10. problema:')
+print(y.text)
+
+ki = {'answer' : 'YES_I_CAN!'}
+
+y = requests.post(url, data=ki, cookies=y.cookies)
+print('megoldas')
+print(y.text)
+               </pre>
+                <li>
+                    <p>Yes I could have used a function and made the code a lot shorter, but when I was doing the
+                        challenge I wanted to verify every single request's result by hand, since there were only 10 of
+                        them, so I've progressed request-by-request.</p>
+                </li>
+
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Flag (hover to see)</h3>
+                </li>
+                <li>
+                    <p><span class="code_hidden">TMHC{I_c4n_h4z_c0d3z_n_crypt0_yisssss!!!}</span></p>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+
+</html>
