@@ -107,7 +107,7 @@ ctf.addEventListener('click', function () {
         {title: '12', id: 'm1220'}], '../../')
     })
     document.querySelector('#all-time').addEventListener('click', function () {
-        comingSoon()
+        renderHeaderBar([{title: 'Tryhackme', id: 'tryhackme'}], 'html/ctf/alltime/tryhackme/')
 
     })
     document.querySelector('#back').addEventListener('click', function () {

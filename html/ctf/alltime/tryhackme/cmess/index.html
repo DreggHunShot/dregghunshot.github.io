@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>t4r0</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic" />
+    <link rel="stylesheet" type="text/css" href="../../../../../stylesheets/static_style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-dark bg-dark">
+        <h3 id="navheader" class="mx-4 my-2">T4r0's writeups</h3>
+
+
+        <ul class="navbar-nav  ml-auto mr-3">
+            <li class="mx-4 nav-item">
+                <a class="header-link mx-3" href="../../../../../index.html">Back</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <section>
+        <div class="container">
+            <h1 style="text-align: center;" class='my-0 py-4'>Boot 2 root - Cmess</h1>
+            <a style="font-size: 2rem;" class='body-link' href="../tryhackme.html">cd ../</a>
+        </div>
+
+    </section>
+    <section>
+        <div class="py-2 container">
+            <ul style='text-align: center; list-style-type: none;'>
+                <div class='my-4 hline'></div>
+                <li>
+                    <h3 class="py-1">Files</h3>
+                </li>
+                <li>
+                    <p>No files, but there is a <a class="body-link" href="https://tryhackme.com/">link to tryhackme</a>
+                        and a <a class="body-link" href="https://tryhackme.com/room/cmess">link to the challenge
+                            on tryhackme</a>, if anyone wants to solve it.</p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Challenge description</h3>
+                </li>
+                <li>
+                    <p>
+                        Find the evidence of the complete compromise of the domain forest in this network traffic
+                        capture file! The presence of the Enterprise Admins group SID indicates the highest privilege.
+                        The structure of the flag is flag{S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-519}. Submit here
+                        when you are ready.
+
+                        (Should you get a Bad Gateway message initially, try to refresh the whole page. Besides, you can
+                        always download the .pcap file if you want to work on that in your own environment.)
+
+                        There is a domain forest with two domain controllers of the corresponding domains
+                        (victimcorp-dc-1.victimcorp.local, victimcorp-dc-2.dev.victimcorp.local). The attackers dumped
+                        from memory the TGT of a domain administrator Bruce Banner and utilized it on another
+                        workstation to elevate privilege of the domain user Peter Parker.
+                        Meanwhile, the TGT was renewed as well. It gives the opportunity to access the victimcorp-dc-2
+                        domain controller.</p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Solution</h3>
+                </li>
+                <li>
+                    <p>We actually solved this an unintended way, much easier than the intended way.</p>
+                </li>
+                <li>
+                    <p>We have a <span class="highlight">.zip</span> file, let's extract it.</p>
+                </li>
+                <li>
+                    <p><span class="code">unzip networktraffic.zip </span></p>
+                </li>
+                <li>
+                    <p>Our first idea was: <span
+                            class="highlight">flag{S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-519}</span>
+                        gave us a pattern we can <span class="highlight">grep</span> for, so let's do that!</p>
+                </li>
+                <li>
+                    <p><span class="code">strings networktraffic.zip | grep ".-.-.-..-" </span></p>
+                </li>
+                <li>
+                    <p>This did give us some SID-s, but the one we are looking for wasn't among them. The result was:
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <pre class="code">
+S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272S-1-5-21-2474510013-3962331584-1878792983-500n
+S-1-15-2-2572118008-3077471215-3128327636-2598586217-811314952-2132569887-2279274531S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-957941444-2271171641-4049211970-804197638-2225746618-2474488012-4131196493S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272S-1-5-21-2474510013-3962331584-1878792983-500.
+S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312S-1-5-21-2474510013-3962331584-1878792983-500x
+S-1-15-2-957941444-2271171641-4049211970-804197638-2225746618-2474488012-4131196493S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312S-1-5-21-2474510013-3962331584-1878792983-5005
+S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2705751783-1496458293-2835996032-3143071717-1071345625-677459937-2760321769S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633S-1-5-21-2474510013-3962331584-1878792983-500h
+S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742S-1-5-21-2474510013-3962331584-1878792983-500h
+S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2705751783-1496458293-2835996032-3143071717-1071345625-677459937-2760321769S-1-5-21-2474510013-3962331584-1878792983-500
+S-1-15-2-2572118008-3077471215-3128327636-2598586217-811314952-2132569887-2279274531S-1-5-21-2474510013-3962331584-1878792983-500</p></pre>
+                </li>
+                <li>
+                    <p>Not sure how many people know about this, but wireshark has a less-known console version too,
+                        called <span class="highlight">tshark</span> .</p>
+                </li>
+                <li>
+                    <p>We ended up using this tool, to generate a <span class="highlight">.pdml</span> file out of our
+                        <span class="highlight">.pcapng</span>. This can be done the following way:</p>
+                </li>
+                <li><span class="code">tshark -r networktraffic.pcapng -T pdml > data.pdml</span></li>
+                <li>
+                    <p>Now that we have this <span class="highlight">XML-like</span> output, let's try to cat it and
+                        <span class="highlight">grep</span> for the right pattern!</p>
+                </li>
+                <li><span class="code">cat data.pdml | grep "S-1-5-21-..........-..........-..........-519"</span>
+                </li>
+                <li>
+                    <p>This indeed gave us the expected result, and the flag. The output looked like this:</p>
+                </li>
+                <li><span class="code">
+                        field name=""
+                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
+                        flags 0x00, Access Allowed, mask 0x000e00bd"
+                        size="36" pos="509"
+                        value="00002400bd000e00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name="nt.sid"
+                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
+                        size="28" pos="517" show="S-1-5-21-4015363511-2369626398-3982198339-519"
+                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name=""
+                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
+                        flags 0x0a, Access Allowed, mask 0x000f00ff"
+                        size="36" pos="545"
+                        value="000a2400ff000f00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name="nt.sid"
+                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
+                        size="28" pos="553" show="S-1-5-21-4015363511-2369626398-3982198339-519"
+                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name=""
+                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
+                        flags 0x00, Access Allowed, mask 0x000e00bd"
+                        size="36" pos="509"
+                        value="00002400bd000e00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name="nt.sid"
+                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
+                        size="28" pos="517" show="S-1-5-21-4015363511-2369626398-3982198339-519"
+                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name=""
+                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
+                        flags 0x0a, Access Allowed, mask 0x000f00ff"
+                        size="36" pos="545"
+                        value="000a2400ff000f00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        field name="nt.sid"
+                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
+                        size="28" pos="553"
+                        show="S-1-5-21-4015363511-2369626398-3982198339-519"
+                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+
+                    </span></li>
+                <li>
+                    <p>Since the flag was the <span class="highlight">Enterprise Admins group SID</span>, we can read
+                        that from this output, and we successfully solved the challenge!</p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <h3>Flag (hover to see)</h3>
+                </li>
+                <li>
+                    <p><span class="code_hidden">flag{S-1-5-21-4015363511-2369626398-3982198339-519}</span></p>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+
+</html>
