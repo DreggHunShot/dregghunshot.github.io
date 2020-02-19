@@ -27,14 +27,14 @@ let wargames = document.querySelector('#wargames')
 
 let ctflink = document.createElement('a')
 // upcoming CTF details
-ctflink.textContent = "Nullcon Hackim CTF"
-ctflink.href = 'https://ctf.nullcon.net/'
+ctflink.textContent = "Pragyan CTF 2020"
+ctflink.href = 'https://ctf.pragyan.org/'
 ctflink.target = '_blank'
 ctflink.className = 'upcoming'
 
 document.querySelector('#footer11').textContent = 'Upcoming CTF that we partake in:  '
 document.querySelector('#ctflink').appendChild(ctflink)
-document.querySelector('#footer12').textContent = ' - Start: Fri, 07 Feb. 2020, 18:00 CET — End: Sun, 09 Feb. 2020, 06:00 CET'
+document.querySelector('#footer12').textContent = ' - Start: 22 febr. 2020, 12:30 UTC  — End: 24 febr. 2020, 12:30 UTC'
 document.querySelector('#footer2').textContent = `© T4r0 ${moment().year()}`
 
 // add event listeners
