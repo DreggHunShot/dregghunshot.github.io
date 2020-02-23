@@ -317,7 +317,7 @@ Exploit Title                                           Path
 9 rows in set (0.00 sec)
 </pre>
                 <p>After checking each table out, we've managed to find that the one named <span
-                        class="highlight">user</span> contained interesting stuff. If someone's not familiar to SQL,
+                        class="highlight">user</span> contained interesting stuff. If someone's not familiar with SQL,
                     here's the command we used:</p>
                 <span class="code">SELECT * FROM user;</span>
                 <p>We got:</p>
@@ -338,7 +338,7 @@ Exploit Title                                           Path
                 <div class='my-4 hline'></div>
                 <p>When you get in a rabbithole, best is to take a step back and try a different approach, you'll always
                     have your previous findings to pick up and go back to later if you documented everything well. This
-                    is exactky what we did, so we started to look around the file system a bit more.</p>
+                    is exactly what we did, so we started to look around the file system a bit more.</p>
                 <p>We first found an interesting file in the <span class="highlight">/tmp</span> folder, but this
                     appeared to be useful for getting root later.</p>
                 <p>Since manual looking didn't give us anything, we decided to run <span
